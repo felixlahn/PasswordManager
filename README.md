@@ -19,3 +19,7 @@
 - Ohne Framework (zb. React etc.)
 - HTML, JavaScript, CSS
 - ev. Bootstrap 5
+
+# TODO
+1. Wie können Passwörter schön als Tabelle dargestellt werden?
+1. Wie können die als JSON gespeicherte Passwörter im Backend (Rust) von Filesystem gelesen und im Frontend verwendet/angezeigt werden?
