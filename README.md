@@ -1,7 +1,13 @@
-# Tauri + Vanilla
+# Passwörter speichern
+- JSON-File
+- für den Anfang als fix angegebener relativer Pfad
 
-This template should help get you started developing with Tauri in vanilla HTML, CSS and Javascript.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+# Design
+- Button für Erstellung neuer Einträge
+- Tabelle
+    - Name
+    - Username
+    - Passwort
+    - URL
+    - Tags
+    - Editieren/Löschen & bei Bearbeitung speichern & abbrechen
