@@ -3,15 +3,22 @@
   windows_subsystem = "windows"
 )]
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+#[derive(Debug, serde::Serialize)]
+enum MyError {
+  FooError,
+}
+
 #[tauri::command]
-fn greet(name: &str) -> String {
-  format!("Hello, {}! You've been greeted from Rust!", name)
+fn echo(message: String) -> Result<String, MyError> {
+  println!("from rust: {}", message);
+  (!message.is_empty())
+    .then(|| message)
+    .ok_or(MyError::FooError)
 }
 
 fn main() {
   tauri::Builder::default()
-      .invoke_handler(tauri::generate_handler![greet])
+      .invoke_handler(tauri::generate_handler![echo])
       .run(tauri::generate_context!())
       .expect("error while running tauri application");
 }
