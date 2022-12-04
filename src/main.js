@@ -1,4 +1,5 @@
 const { invoke } = window.__TAURI__.tauri;
+const { readTextFile, BaseDirectory } = window.__TAURI__.fs;
 
 let test_button;
 let echo_paragraph;
@@ -10,11 +11,8 @@ function showMessage(response) {
 
 async function echo() {
   console.log("button pressed");
-  await invoke("echo", { message: text_input.value }).then(response => {
-    showMessage(response);
-  }).catch(e => {
-    console.error("Error responed from rust:", e);
-  });
+  const contents = await readTextFile('C:/Users/Felix Lahnsteiner/git/desktopWebapplikationen/PasswordManager/src/passwords.json', { contents: String });
+  console.log(contents);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
