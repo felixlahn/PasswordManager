@@ -3,17 +3,14 @@
   windows_subsystem = "windows"
 )]
 
-#[derive(Debug, serde::Serialize)]
-enum MyError {
-  FooError,
-}
-
 #[tauri::command]
-fn echo(message: String) -> Result<String, MyError> {
+fn echo(message: String) -> Result<String, String> {
   println!("from rust: {}", message);
-  (!message.is_empty())
-    .then(|| message)
-    .ok_or(MyError::FooError)
+  if message.is_empty() {
+    Err("this hasen't worked".into())
+  } else {
+    Ok(message.into())
+  }
 }
 
 fn main() {

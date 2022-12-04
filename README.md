@@ -1,7 +1,25 @@
-# Tauri + Vanilla
+# Passwörter speichern
+- JSON-File
+- für den Anfang als fix angegebener relativer Pfad
+- Backend übergibt die Passwörter entschlüsselt als JSON an Frontend?
+- Entschlüsselung nur der Passwörter auf Bedarf?
+- Masterpasswort für den Anfang hardcode
 
-This template should help get you started developing with Tauri in vanilla HTML, CSS and Javascript.
+# Design
+- Button für Erstellung neuer Einträge
+- Tabelle
+    - Name
+    - Username
+    - Passwort
+    - URL
+    - Tags
+    - Editieren/Löschen & bei Bearbeitung speichern & abbrechen
 
-## Recommended IDE Setup
+# Implementierung
+- Ohne Framework (zb. React etc.)
+- HTML, JavaScript, CSS
+- ev. Bootstrap 5
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+# TODO
+1. Wie können Passwörter schön als Tabelle dargestellt werden?
+1. Wie können die als JSON gespeicherte Passwörter im Backend (Rust) von Filesystem gelesen und im Frontend verwendet/angezeigt werden?
