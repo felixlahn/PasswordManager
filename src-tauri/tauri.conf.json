@@ -7,12 +7,12 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "PasswordManager",
+    "productName": "password_manager",
     "version": "0.0.0"
   },
   "tauri": {
     "allowlist": {
-      "all": true
+      "all": false
     },
     "bundle": {
       "active": true,
@@ -29,7 +29,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "at.fhv.desk_apps.rumpelnig_lahnsteiner.password_manager",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
