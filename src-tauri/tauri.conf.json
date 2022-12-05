@@ -13,8 +13,11 @@
   "tauri": {
     "allowlist": {
       "fs": {
-        "readFile": true,
-        "scope": ["C:/Users/Felix Lahnsteiner/git/desktopWebapplikationen/PasswordManager/src/*"]
+        "all": true,
+        "scope": ["$DESKTOP/*"]
+      },
+      "path": {
+        "all": true
       }
     },
     "bundle": {
