@@ -6,6 +6,23 @@ let test_button;
 let echo_paragraph;
 let text_input;
 
+let test_button_id = "test-button";
+let echo_paragraph_id = "echo";
+let text_input_id = "text-input";
+
+async function decrypt(ciphertext, password) {
+  let result;
+  await invoke("decrypt", { ciphertext: ciphertext, password: password })
+    .then(plaintext => {
+      result = plaintext;
+    })
+    .catch((err) => {
+      console.error(err);
+      throw "could not decrypt";
+    });
+    return result;
+}
+
 function fileReadError(message, error) {
   console.error(error);
   showMessage(message);
@@ -15,21 +32,50 @@ function showMessage(response) {
   echo_paragraph.textContent = response;
 }
 
-async function echo() {
-  console.log("button pressed");
+function checkStringNullEmpty(string) {
+  if(!string) {
+    throw "null string";
+  }
+
+  if(string.trim() === '') {
+    throw "empty string";
+  }
+}
+
+async function openFile() {
   let path = await desktopDir();
-  let filename = "passwords.json";
-  let filepath = path + filename;
+  let filename = text_input.value;
+
+  try {
+    checkStringNullEmpty(filename);
+  } catch (err) {
+    console.error("error with filename:", err);
+    return;
+  }
+
+  let fileContent;
+  try {
+    fileContent = await readTextFile(path + filename, { path: path, contents: String });
+  } catch (e) {
+    fileReadError("cannont read file", error);
+    return;
+  }
     
-    const contents = await readTextFile(filepath, { path: path, contents: String })
-    .then(file => { showMessage(file) })
-    .catch(error => { fileReadError("cannont read file", error) });
+  let decrypted;
+  try {
+    decrypted = await decrypt(fileContent, "password");
+  } catch (e) {
+    console.error(e);
+    return;
+  }
+
+  showMessage(decrypted);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  test_button = document.getElementById("test-button");
-  echo_paragraph = document.getElementById("echo");
-  text_input = document.getElementById("text-input");
+  test_button = document.getElementById(test_button_id);
+  echo_paragraph = document.getElementById(echo_paragraph_id);
+  text_input = document.getElementById(text_input_id);
 
-  test_button.addEventListener("click", echo);
+  test_button.addEventListener("click", openFile);
 })
