@@ -1,12 +1,13 @@
 const { invoke } = window.__TAURI__.tauri;
 const { readTextFile, BaseDirectory } = window.__TAURI__.fs;
 const { desktopDir } = window.__TAURI__.path;
+const { appWindow } = window.__TAURI__.window;
 
 import { test_button, echo_paragraph, text_input } from './modules/htmlElements.mjs'
 
 async function decrypt(ciphertext, password) {
   let result;
-  await invoke("decrypt", { ciphertext: ciphertext, password: password })
+  await invoke("decrypt", { ciphertext: ciphertext, password: password, window: appWindow })
     .then(plaintext => {
       result = plaintext;
     })
@@ -69,3 +70,8 @@ async function openFile() {
 window.addEventListener("DOMContentLoaded", () => {
   test_button.addEventListener("click", openFile);
 })
+
+const unlistenProgress = await appWindow.listen(
+  'PROGRESS',
+  ({event, payload}) => console.log(event)
+);
