@@ -2,13 +2,7 @@ const { invoke } = window.__TAURI__.tauri;
 const { readTextFile, BaseDirectory } = window.__TAURI__.fs;
 const { desktopDir } = window.__TAURI__.path;
 
-let test_button;
-let echo_paragraph;
-let text_input;
-
-let test_button_id = "test-button";
-let echo_paragraph_id = "echo";
-let text_input_id = "text-input";
+import { test_button, echo_paragraph, text_input } from './modules/htmlElements.mjs'
 
 async function decrypt(ciphertext, password) {
   let result;
@@ -73,9 +67,5 @@ async function openFile() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  test_button = document.getElementById(test_button_id);
-  echo_paragraph = document.getElementById(echo_paragraph_id);
-  text_input = document.getElementById(text_input_id);
-
   test_button.addEventListener("click", openFile);
 })
