@@ -23,3 +23,7 @@
 # TODO
 1. Wie können Passwörter schön als Tabelle dargestellt werden?
 1. Wie können die als JSON gespeicherte Passwörter im Backend (Rust) von Filesystem gelesen und im Frontend verwendet/angezeigt werden?
+
+# Interessante Ressourcen
+- [A Guide for Tauri: Part 2](https://nikolas.blog/a-guide-for-tauri-part-2/)
+- [Frontend Backend Communication in Tauri: Implementing Progress Bars and Interrupt Button](https://betterprogramming.pub/front-end-back-end-communication-in-tauri-implementing-progress-bars-and-interrupt-buttons-2a4efd967059)
