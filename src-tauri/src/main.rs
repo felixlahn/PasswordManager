@@ -26,9 +26,9 @@ fn decrypt(ciphertext: String, password: String, window: Window) -> Result<Strin
 }
 
 fn main() {
-  let quit = CustomMenuItem::new("open".to_string(), "Open").accelerator("cmdOrControl+O");
-  let close = CustomMenuItem::new("close".to_string(), "Close").accelerator("cmdOrControl+Q");
-  let submenu = Submenu::new("File", Menu::new().add_item(quit).add_item(close));
+  let openMenuOption = CustomMenuItem::new("open".to_string(), "Open").accelerator("cmdOrControl+O");
+  let closeMenuOption = CustomMenuItem::new("close".to_string(), "Close").accelerator("cmdOrControl+Q");
+  let submenu = Submenu::new("File", Menu::new().add_item(openMenuOption).add_item(closeMenuOption));
   let menu = Menu::new()
     .add_submenu(submenu);
 
