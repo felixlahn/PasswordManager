@@ -13,11 +13,15 @@
   "tauri": {
     "allowlist": {
       "fs": {
-        "all": true,
-        "scope": ["$DESKTOP/*"]
+          "writeFile": true,
+          "readFile": true
       },
       "path": {
-        "all": true
+          "all": true
+      },
+      "dialog": {
+          "open": true,
+          "save": true 
       }
     },
     "bundle": {

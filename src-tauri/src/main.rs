@@ -18,9 +18,9 @@ struct Payload {
 #[tauri::command]
 fn decrypt(ciphertext: String, password: String, window: Window) -> Result<String, EncryptionError> {
   if password.is_empty() {
-    window.emit("PROGRESS", Payload { message: "hallo event".into() }).unwrap();
     Err(EncryptionError::EmptyPasswordError)
   } else {
+    window.emit("PROGRESS", Payload { message: "hallo event".into() }).unwrap();
     Ok(ciphertext.into())
   }
 }
@@ -40,7 +40,7 @@ fn main() {
             event.window().close().unwrap();
           }
           "open" => {
-            println!("open");
+            event.window().emit("menu-event", Payload { message: "open event".into() }).unwrap();
           }
           _ => {}
         }
