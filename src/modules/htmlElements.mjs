@@ -1,13 +1,7 @@
-export let test_button;
-export let echo_paragraph;
-export let text_input;
+export let output_paragraph;
 
-let test_button_id = "test-button";
-let echo_paragraph_id = "echo";
-let text_input_id = "text-input";
+let output_paragraph_id = "output-paragraph";
 
 window.addEventListener("DOMContentLoaded", () => {
-    test_button = document.getElementById(test_button_id);
-    echo_paragraph = document.getElementById(echo_paragraph_id);
-    text_input = document.getElementById(text_input_id);
+    output_paragraph = document.getElementById(output_paragraph_id);
 })

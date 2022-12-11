@@ -3,26 +3,11 @@
   windows_subsystem = "windows"
 )]
 
-use tauri::{CustomMenuItem, Menu, MenuItem, Submenu, Window};
-
-#[derive(Debug, serde::Serialize)]
-enum EncryptionError {
-  EmptyPasswordError,
-}
+use tauri::{CustomMenuItem, Menu, Submenu};
 
 #[derive(Clone, serde::Serialize)]
-struct Payload {
+struct MessagePayload {
   message: String,
-}
-
-#[tauri::command]
-fn decrypt(ciphertext: String, password: String, window: Window) -> Result<String, EncryptionError> {
-  if password.is_empty() {
-    Err(EncryptionError::EmptyPasswordError)
-  } else {
-    window.emit("PROGRESS", Payload { message: "hallo event".into() }).unwrap();
-    Ok(ciphertext.into())
-  }
 }
 
 fn main() {
@@ -40,12 +25,11 @@ fn main() {
             event.window().close().unwrap();
           }
           "open" => {
-            event.window().emit("menu-event", Payload { message: "open event".into() }).unwrap();
+            event.window().emit("menu-event", MessagePayload { message: "open-event".into() }).unwrap();
           }
           _ => {}
         }
       })
-      .invoke_handler(tauri::generate_handler![decrypt])
       .run(tauri::generate_context!())
       .expect("error while running tauri application");
 }
