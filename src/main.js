@@ -43,3 +43,7 @@ const unlistenMenuEvent = listen(
 window.addEventListener("DOMContentLoaded", () => {
   first_button.addEventListener("click", openAndDecrypt);
 })
+
+$(function(){
+  $('#pw-entries').tablesorter(); 
+});

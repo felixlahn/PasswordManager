@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PasswordManager</title>
     <script type="module" src="/main.js" defer></script>
+    <link rel="stylesheet" href="styles.css">
   </head>
 
   <body>
@@ -12,6 +13,49 @@
       <p id="output-paragraph"></p>
       <p id="second-output"></p>
       <button id="btn_enc_dec" type="button">Press to encrypt/decrypt</button>
+      <h1>Password entries:</h1>  
+      <table id="pw-entries" cellspacing="0" cellpadding="0">
+
+        <thead>
+          <tr>
+            <th><span>Name</span></th>
+            <th><span>Username</span></th>
+            <th><span>Password</span></th>
+            <th><span>URL</span></th>
+            <th><span>Tags</span></th>
+            <th><span></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="lalign">Google</td>
+            <td>Michael</td>
+            <td>some_pw</td>
+            <td>www.google.com</td>
+            <td></td>
+            <td>
+              <a href="#" class="button edit"></a>
+              <a href="#" class="button delete"></a>
+              <a href="#" class="button confirm" style="display:none;"></a>
+              <a href="#" class="button cancel" style="display:none;"></a>
+            </td>
+          </tr>
+          <tr>
+            <td class="lalign">Google</td>
+            <td>Michael</td>
+            <td>some_pw</td>
+            <td>www.google.com</td>
+            <td></td>
+            <td>
+              <a href="#" class="button edit"></a>
+              <a href="#" class="button delete"></a>
+              <a href="#" class="button confirm" style="display:none;"></a>
+              <a href="#" class="button cancel" style="display:none;"></a>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
     </div>
   </body>
 </html>
