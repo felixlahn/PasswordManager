@@ -3,7 +3,7 @@ const { listen } = window.__TAURI__.event;
 const { open } = window.__TAURI__.dialog;
 const { readTextFile } = window.__TAURI__.fs;
 
-import { output_paragraph } from './modules/htmlElements.mjs'
+import { output_paragraph, second_out, first_button } from './modules/htmlElements.mjs'
 
 async function handleMenueEvent(eventPayloadMessage) {
   if (eventPayloadMessage === "open-event") {
@@ -11,15 +11,27 @@ async function handleMenueEvent(eventPayloadMessage) {
   }
 }
 
-async function openAndDecrypt(password) {
+async function openAndDecrypt() {
   let filepath = await open();
   
-  const contents = await readTextFile(filepath);
+  //const contents = await readTextFile(filepath);
+  const contents = "testing the encryption";
+  let encrypted_string = "it didn't work";
   
-  await invoke("decrypt", { cyphertext: contents })
-      .then((plaintext) => {
-        output_paragraph.innerText = JSON.stringify(JSON.parse(plaintext));
-        console.log(plaintext);
+  await invoke("encrypt", { plaintext: contents })
+      .then((encryption) => {
+        encrypted_string = encryption;
+        output_paragraph.innerText = encrypted_string;
+        console.log(encrypted_string);
+      })
+      .catch((err) => {
+        console.error(err);
+      });  
+
+      await invoke("decrypt", {cyphertext: encrypted_string})
+      .then((decryption) => {
+        second_out.innerText = decryption;
+        console.log(decryption);
       })
       .catch((err) => {
         console.error(err);
@@ -32,5 +44,5 @@ const unlistenMenuEvent = listen(
 );
 
 window.addEventListener("DOMContentLoaded", () => {
-
+  first_button.addEventListener("click", openAndDecrypt);
 })

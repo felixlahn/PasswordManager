@@ -6,6 +6,9 @@
 use std::{fs::{File, self}, path::Path, error::Error};
 
 use tauri::{CustomMenuItem, Menu, Submenu, api::file};
+use magic_crypt::{new_magic_crypt, MagicCryptTrait};
+
+const MASTER_KEY: &str = "magickey";
 
 #[derive(Debug, serde::Serialize)]
 struct PasswordEntry {
@@ -21,18 +24,17 @@ struct MessagePayload {
 }
 
 #[tauri::command]
-fn decrypt(cyphertext: String) -> String {
-  let first_entry = PasswordEntry {
-    name: String::from("Microsoft"),
-    username: String::from("felix.lahnsteiner@outlook.com"),
-    password: String::from("microsoftPassword"),
-    url: String::from("microsoft.com")
-  };
-  
-  println!("{}", cyphertext);
+fn decrypt(cyphertext: String,) -> String {    
+  let mycrpyt = new_magic_crypt!(MASTER_KEY, 256); 
+  let decrypted_string = mycrpyt.decrypt_base64_to_string(&cyphertext).unwrap();
+  return decrypted_string;
+}
 
-  let serialized = serde_json::to_string(&first_entry).unwrap();
-  return serialized;
+#[tauri::command]
+fn encrypt(plaintext: String,) -> String {
+  let mycrpyt = new_magic_crypt!(MASTER_KEY, 256);
+  let encrypted_string = mycrpyt.encrypt_str_to_base64(&plaintext);
+  return encrypted_string;
 }
 
 fn main() {
@@ -55,7 +57,7 @@ fn main() {
           _ => {}
         }
       })
-      .invoke_handler(tauri::generate_handler![decrypt])
+      .invoke_handler(tauri::generate_handler![decrypt, encrypt])
       .run(tauri::generate_context!())
       .expect("error while running tauri application");
 }
