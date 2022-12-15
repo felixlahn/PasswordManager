@@ -12,9 +12,6 @@ async function handleMenueEvent(eventPayloadMessage) {
 }
 
 async function openAndDecrypt() {
-  let filepath = await open();
-  
-  //const contents = await readTextFile(filepath);
   const contents = "testing the encryption";
   let encrypted_string = "it didn't work";
   

@@ -3,9 +3,7 @@
   windows_subsystem = "windows"
 )]
 
-use std::{fs::{File, self}, path::Path, error::Error};
-
-use tauri::{CustomMenuItem, Menu, Submenu, api::file};
+use tauri::{CustomMenuItem, Menu, Submenu};
 use magic_crypt::{new_magic_crypt, MagicCryptTrait};
 
 const MASTER_KEY: &str = "magickey";
