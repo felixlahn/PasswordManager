@@ -5,30 +5,23 @@ const { readTextFile } = window.__TAURI__.fs;
 
 import { output_paragraph, second_out, first_button } from './modules/htmlElements.mjs'
 
+let decryptedDeserializedPasswords;
+let password = "myFancyPassword";
+
 async function handleMenueEvent(eventPayloadMessage) {
   if (eventPayloadMessage === "open-event") {
-    openAndDecrypt("myFancyPassword");
+    openAndDecrypt(password);
   }
 }
 
-async function openAndDecrypt() {
-  const contents = "testing the encryption";
-  let encrypted_string = "it didn't work";
-  
-  await invoke("encrypt", { plaintext: contents })
-      .then((encryption) => {
-        encrypted_string = encryption;
-        output_paragraph.innerText = encrypted_string;
-        console.log(encrypted_string);
-      })
-      .catch((err) => {
-        console.error(err);
-      });  
+async function openAndDecrypt(password) {
+  let filePath = await open();
+  let contents = await readTextFile(filePath);
 
-      await invoke("decrypt", {cyphertext: encrypted_string})
-      .then((decryption) => {
-        second_out.innerText = decryption;
-        console.log(decryption);
+  await invoke("decrypt", { cyphertext: contents, password: password })
+      .then((plaintext) => {
+        decryptedDeserializedPasswords = JSON.parse(plaintext);
+        console.log("deserialized", decryptedDeserializedPasswords);
       })
       .catch((err) => {
         console.error(err);

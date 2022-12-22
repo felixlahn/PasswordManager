@@ -6,8 +6,6 @@
 use tauri::{CustomMenuItem, Menu, Submenu};
 use magic_crypt::{new_magic_crypt, MagicCryptTrait};
 
-const MASTER_KEY: &str = "magickey";
-
 #[derive(Debug, serde::Serialize)]
 struct PasswordEntry {
   name: String,
@@ -16,22 +14,33 @@ struct PasswordEntry {
   url: String
 }
 
+#[derive(Debug, serde::Serialize)]
+enum CryptographyError {
+  EmptyPasswordError,
+  DecryptionError,
+  EncryptionError
+}
+
 #[derive(Clone, serde::Serialize)]
 struct MessagePayload {
   message: String,
 }
 
 #[tauri::command]
-fn decrypt(cyphertext: String,) -> String {    
-  let mycrpyt = new_magic_crypt!(MASTER_KEY, 256); 
-  let decrypted_string = mycrpyt.decrypt_base64_to_string(&cyphertext).unwrap();
-  return decrypted_string;
+fn decrypt(cyphertext: String, password: String) -> Result<String, CryptographyError> {
+  let mycrpyt = new_magic_crypt!(password, 256); 
+  let decryption_result = mycrpyt.decrypt_base64_to_string(&cyphertext);
+  match decryption_result {
+    Ok(str) => return Ok(str),
+    Err(err) => {println!("error when trying to decrypt cyphertext {}; got error {}", cyphertext, err); return Err(CryptographyError::DecryptionError)}
+  };
 }
 
 #[tauri::command]
-fn encrypt(plaintext: String,) -> String {
-  let mycrpyt = new_magic_crypt!(MASTER_KEY, 256);
+fn encrypt(plaintext: String, password: String) -> String {
+  let mycrpyt = new_magic_crypt!(password, 256);
   let encrypted_string = mycrpyt.encrypt_str_to_base64(&plaintext);
+  
   return encrypted_string;
 }
 
