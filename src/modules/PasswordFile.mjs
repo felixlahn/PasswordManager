@@ -34,7 +34,15 @@ export class PasswordFile {
     }
 
     addEntry(name, username, accountname, password, url) {
-        let newEntry = new Entry(name, username, accountname, password, url);
+        let maxId = 0;
+        
+        this.entries.forEach(elem => {
+            if(maxId < elem.id){
+                maxId = elem.id;
+            }
+        });
+
+        let newEntry = new Entry(maxId + 1, name, username, accountname, password, url);
         this.entries.push(newEntry);
         this.saved = false;
     }

@@ -10,8 +10,12 @@ let passwordFile = new PasswordFile();
 let password = "secret";
 
 function addEntry() {
-  passwordFile.addEntry(passwordFile.entries.length + 1,"Microsoft", "felix.lahnsteiner@outlook.com", "Microsoft", "microsoftpassword", "microsoft.com");
+  passwordFile.addEntry("Microsoft", "felix.lahnsteiner@outlook.com", "Microsoft", "microsoftpassword", "microsoft.com");
   showPasswords();
+}
+
+function edit(id) {
+  console.log(id);
 }
 
 async function save() {
@@ -46,47 +50,59 @@ function showPasswords() {
     // accountname
     var accountNameCell = newRow.insertCell();
     accountNameCell.classList.add("lalign");
+    accountNameCell.setAttribute("id", "name-" + element.id);
     var accountNameCellText = document.createTextNode(element.name);
     accountNameCell.appendChild(accountNameCellText);
 
     // username
     var usernameCell = newRow.insertCell();
+    usernameCell.setAttribute("id", "username-" + element.id);
     var usernameCellText = document.createTextNode(element.username);
     usernameCell.appendChild(usernameCellText);
 
     //password
     var passwordCell = newRow.insertCell();
+    passwordCell.setAttribute("id", "password-" + element.id);
     var passwordCellText = document.createTextNode(element.password);
     passwordCell.appendChild(passwordCellText);
 
     // url
     var urlCell = newRow.insertCell();
+    urlCell.setAttribute("id", "url-" + element.id);
     var urlCellText = document.createTextNode(element.url);
     urlCell.appendChild(urlCellText);
 
+    // tags
+    var tagCell = newRow.insertCell();
+    tagCell.setAttribute("id", "tag-" + element.id);
+
     // buttons
-    var emptyCell = newRow.insertCell()
     var buttonCell = newRow.insertCell();
-    newRow.appendChild(emptyCell);
+    newRow.appendChild(buttonCell);
 
     var editButton = document.createElement("a");
     editButton.setAttribute("href", "#");
+    editButton.setAttribute("id", "edit-" + element.id);
     editButton.className = "button edit";
+    editButton.onclick = () => edit(element.id);
     buttonCell.appendChild(editButton);
 
     var deleteButton = document.createElement("a");
     deleteButton.setAttribute("href", "#");
+    deleteButton.setAttribute("id", "delete-" + element.id);
     deleteButton.className = "button delete";
     buttonCell.appendChild(deleteButton);
 
     var confirmButton = document.createElement("a");
     confirmButton.setAttribute("href", "#");
+    confirmButton.setAttribute("id", "confirm-" + element.id);
     confirmButton.setAttribute("style", "display:none");
     confirmButton.className = "button confirm";
     buttonCell.appendChild(confirmButton);
     
     var cancelButton = document.createElement("a");
     cancelButton.setAttribute("href", "#");
+    cancelButton.setAttribute("id", "cancel-" + element.id);
     cancelButton.setAttribute("style", "display:none");
     cancelButton.className = "button cancel";
     buttonCell.appendChild(cancelButton);
