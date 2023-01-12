@@ -1,20 +1,41 @@
 const { invoke } = window.__TAURI__.tauri;
 const { listen } = window.__TAURI__.event;
 const { open } = window.__TAURI__.dialog;
-const { readTextFile } = window.__TAURI__.fs;
+const { readTextFile, writeTextFile } = window.__TAURI__.fs;
 
-import { first_button, password_table } from './modules/htmlElements.mjs'
+import { password_table, add_entry_button } from './modules/htmlElements.mjs'
+import { PasswordFile } from './modules/PasswordFile.mjs';
 
-let decryptedDeserializedPasswords;
-let password = "myFancyPassword";
+let passwordFile = new PasswordFile();
+
+function addEntry() {
+  passwordFile.addEntry("Microsoft", "felix.lahnsteiner@outlook.com", "Microsoft", "microsoftpassword", "microsoft.com");
+  showPasswords();
+}
+
+async function decrptAndSave(passwords) {
+  let encrypted = "";
+  await invoke("encrypt", { plaintext: JSON.stringify(passwords), password: password })
+  .then((cyphertext) => {
+    encrypted = JSON.parse(cyphertext);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+  await writeTextFile(passwordFilePath, encrypted);
+}
 
 async function handleMenueEvent(eventPayloadMessage) {
   if (eventPayloadMessage === "open-event") {
     openAndDecrypt(password);
   }
+  if (eventPayloadMessage === "save-event") {
+    decrptAndSave(decryptedDeserializedPasswords);
+  }
 }
 
-function showPasswords(passwords) {
+function showPasswords() {
   //clear all rows that may exist
   let tableHeaderRowCount = 1;
   let table = password_table;
@@ -25,7 +46,7 @@ function showPasswords(passwords) {
   
   table = password_table.getElementsByTagName('tbody')[0];
 
-  passwords.entries.forEach(element => {
+  passwordFile.entries.forEach(element => {
     var newRow = table.insertRow();
     // accountname
     var accountNameCell = newRow.insertCell();
@@ -80,8 +101,8 @@ function showPasswords(passwords) {
 }
 
 async function openAndDecrypt(password) {
-  let filePath = await open();
-  let contents = await readTextFile(filePath);
+  passwordFilePath = await open();
+  let contents = await readTextFile(passwordFilePath);
 
   await invoke("decrypt", { cyphertext: contents, password: password })
       .then((plaintext) => {
@@ -100,9 +121,5 @@ const unlistenMenuEvent = listen(
 );
 
 window.addEventListener("DOMContentLoaded", () => {
-  first_button.addEventListener("click", openAndDecrypt);
+  add_entry_button.addEventListener("click", addEntry);
 })
-
-$(function(){
-  $('#pw-entries').tablesorter(); 
-});

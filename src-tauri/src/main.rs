@@ -46,8 +46,9 @@ fn encrypt(plaintext: String, password: String) -> String {
 
 fn main() {
   let open_menu_option = CustomMenuItem::new("open".to_string(), "Open").accelerator("cmdOrControl+O");
+  let save_menu_option = CustomMenuItem::new("save".to_string(), "Save").accelerator("cmdOrControl+S");
   let close_menu_option = CustomMenuItem::new("close".to_string(), "Close").accelerator("cmdOrControl+Q");
-  let submenu = Submenu::new("File", Menu::new().add_item(open_menu_option).add_item(close_menu_option));
+  let submenu = Submenu::new("File", Menu::new().add_item(open_menu_option).add_item(close_menu_option).add_item(save_menu_option));
   let menu = Menu::new()
     .add_submenu(submenu);
 
@@ -60,6 +61,9 @@ fn main() {
           }
           "open" => {
             event.window().emit("menu-event", MessagePayload { message: "open-event".into() }).unwrap();
+          }
+          "save" => {
+            event.window().emit("menu-event", MessagePayload {message: "save-event".into()}).unwrap();
           }
           _ => {}
         }
