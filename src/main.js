@@ -1,37 +1,31 @@
 const { invoke } = window.__TAURI__.tauri;
 const { listen } = window.__TAURI__.event;
 const { open } = window.__TAURI__.dialog;
-const { readTextFile, writeTextFile } = window.__TAURI__.fs;
+const { writeTextFile } = window.__TAURI__.fs;
 
 import { password_table, add_entry_button } from './modules/htmlElements.mjs'
 import { PasswordFile } from './modules/PasswordFile.mjs';
 
 let passwordFile = new PasswordFile();
+let password = "secret";
 
 function addEntry() {
   passwordFile.addEntry(passwordFile.entries.length + 1,"Microsoft", "felix.lahnsteiner@outlook.com", "Microsoft", "microsoftpassword", "microsoft.com");
   showPasswords();
 }
 
-async function decrptAndSave(passwords) {
-  let encrypted = "";
-  await invoke("encrypt", { plaintext: JSON.stringify(passwords), password: password })
-  .then((cyphertext) => {
-    encrypted = JSON.parse(cyphertext);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
-
-  await writeTextFile(passwordFilePath, encrypted);
+async function save() {
+  console.log("save in main");
+  await passwordFile.saveFile();
 }
 
 async function handleMenueEvent(eventPayloadMessage) {
+  console.debug("handleMenueEvent:", eventPayloadMessage);
   if (eventPayloadMessage === "open-event") {
-    openAndDecrypt(password);
+    openFile();
   }
   if (eventPayloadMessage === "save-event") {
-    decrptAndSave(decryptedDeserializedPasswords);
+    await save();
   }
 }
 
@@ -101,19 +95,13 @@ function showPasswords() {
   });
 }
 
-async function openAndDecrypt(password) {
-  passwordFilePath = await open();
-  let contents = await readTextFile(passwordFilePath);
+async function openFile() {
+  let filePath = await open();
+  console.log(filePath);
 
-  await invoke("decrypt", { cyphertext: contents, password: password })
-      .then((plaintext) => {
-        decryptedDeserializedPasswords = JSON.parse(plaintext);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  await passwordFile.openFile(filePath);
 
-  showPasswords(decryptedDeserializedPasswords);
+  showPasswords();
 }
 
 const unlistenMenuEvent = listen(
