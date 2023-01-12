@@ -14,8 +14,53 @@ function addEntry() {
   showPasswords();
 }
 
-function edit(id) {
-  console.log(id);
+function editEntry(id) {
+  var nameCell = document.getElementById("name-" + id);
+  var usernameCell = document.getElementById("username-" + id);
+  var nameCell = document.getElementById("name-" + id);
+  var passwordCell = document.getElementById("password-" + id);
+  var urlCell = document.getElementById("url-" + id);
+  var editButton = document.getElementById("edit-" + id);
+  var deleteButton = document.getElementById("delete-" + id);
+  var confirmButton = document.getElementById("confirm-" + id);
+  var cancelButton = document.getElementById("cancel-" + id);
+
+  nameCell.getElementsByTagName("input")[0].readOnly = false;
+  usernameCell.getElementsByTagName("input")[0].readOnly = false;
+  var pwInput = passwordCell.getElementsByTagName("input")[0];
+  pwInput.readOnly = false;
+  pwInput.type = "text";
+  urlCell.getElementsByTagName("input")[0].readOnly = false;
+
+  changeButtonStateToEditing(); 
+}
+
+function deleteEntry(id){
+
+}
+
+
+function confirmEdits(id){
+
+}
+
+function cancelEdits(id){
+
+}
+
+
+function changeButtonStateToEditing(){
+  editButton.style = "display:none";
+  deleteButton.style = "display:none";
+  confirmButton.style = "";
+  cancelButton.style = "";
+}
+
+function changeButtonStateToNonEditing(){
+  editButton.style = "";
+  deleteButton.style = "";
+  confirmButton.style = "display:none";
+  cancelButton.style = "display:none";
 }
 
 async function save() {
@@ -51,26 +96,38 @@ function showPasswords() {
     var accountNameCell = newRow.insertCell();
     accountNameCell.classList.add("lalign");
     accountNameCell.setAttribute("id", "name-" + element.id);
-    var accountNameCellText = document.createTextNode(element.name);
-    accountNameCell.appendChild(accountNameCellText);
+    var nameInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.value = element.name;
+    nameInput.readOnly = true;
+    accountNameCell.appendChild(nameInput);
 
     // username
     var usernameCell = newRow.insertCell();
     usernameCell.setAttribute("id", "username-" + element.id);
-    var usernameCellText = document.createTextNode(element.username);
-    usernameCell.appendChild(usernameCellText);
+    var usernameInput = document.createElement("input");
+    usernameInput.type = "text";
+    usernameInput.value = element.username;
+    usernameInput.readOnly = true;
+    usernameCell.appendChild(usernameInput);
 
     //password
     var passwordCell = newRow.insertCell();
     passwordCell.setAttribute("id", "password-" + element.id);
-    var passwordCellText = document.createTextNode(element.password);
-    passwordCell.appendChild(passwordCellText);
+    var passwordInput = document.createElement("input");
+    passwordInput.type = "password";
+    passwordInput.value = element.password;
+    passwordInput.readOnly = true;
+    passwordCell.appendChild(passwordInput);
 
     // url
     var urlCell = newRow.insertCell();
     urlCell.setAttribute("id", "url-" + element.id);
-    var urlCellText = document.createTextNode(element.url);
-    urlCell.appendChild(urlCellText);
+    var urlInput = document.createElement("input");
+    urlInput.type = "text";
+    urlInput.value = element.url;
+    urlCell.readOnly = true;
+    urlCell.appendChild(urlInput);
 
     // tags
     var tagCell = newRow.insertCell();
@@ -84,7 +141,7 @@ function showPasswords() {
     editButton.setAttribute("href", "#");
     editButton.setAttribute("id", "edit-" + element.id);
     editButton.className = "button edit";
-    editButton.onclick = () => edit(element.id);
+    editButton.onclick = () => editEntry(element.id);
     buttonCell.appendChild(editButton);
 
     var deleteButton = document.createElement("a");
