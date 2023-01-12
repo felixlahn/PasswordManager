@@ -56,17 +56,17 @@ export class PasswordFile {
 
 class Entry {
 
+    id = 0;
     name = "";
     username = "";
     password = "";
     url = "";
-    id = 0;
 
-    constructor(name, username, password, url, id) {
+    constructor(id, name, username, password, url) {
+        this.id = id;
         this.name = name;
         this.username = username;
         this.password = password;
         this.url = url;
-        this.id = id;
     }
 }

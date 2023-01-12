@@ -9,7 +9,7 @@ import { PasswordFile } from './modules/PasswordFile.mjs';
 let passwordFile = new PasswordFile();
 
 function addEntry() {
-  passwordFile.addEntry("Microsoft", "felix.lahnsteiner@outlook.com", "Microsoft", "microsoftpassword", "microsoft.com");
+  passwordFile.addEntry(passwordFile.entries.length + 1,"Microsoft", "felix.lahnsteiner@outlook.com", "Microsoft", "microsoftpassword", "microsoft.com");
   showPasswords();
 }
 
@@ -48,6 +48,7 @@ function showPasswords() {
 
   passwordFile.entries.forEach(element => {
     var newRow = table.insertRow();
+    newRow.setAttribute("id", element.id)
     // accountname
     var accountNameCell = newRow.insertCell();
     accountNameCell.classList.add("lalign");
