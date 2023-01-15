@@ -48,10 +48,58 @@ function confirmEdits(id){
   var password = document.getElementById("password-" + id).getElementsByTagName("input")[0].value;
   var url = document.getElementById("url-" + id).getElementsByTagName("input")[0].value;
   passwordFile.editEntry(id, name, username, password, url);
+
+  var nameCell = document.getElementById("name-" + id);
+  var usernameCell = document.getElementById("username-" + id);
+  var nameCell = document.getElementById("name-" + id);
+  var passwordCell = document.getElementById("password-" + id);
+  var urlCell = document.getElementById("url-" + id);
+  var editButton = document.getElementById("edit-" + id);
+  var deleteButton = document.getElementById("delete-" + id);
+  var confirmButton = document.getElementById("confirm-" + id);
+  var cancelButton = document.getElementById("cancel-" + id);
+
+  nameCell.getElementsByTagName("input")[0].readOnly = true;
+  usernameCell.getElementsByTagName("input")[0].readOnly = true;
+  var pwInput = passwordCell.getElementsByTagName("input")[0];
+  pwInput.readOnly = true;
+  pwInput.type = "password";
+  urlCell.getElementsByTagName("input")[0].readOnly = true;
+
+  changeButtonStateToNonEditing(editButton, deleteButton, confirmButton, cancelButton);
 }
 
 function cancelEdits(id){
+  var entry = passwordFile.getEntry(id);
+  console.log(entry);
+  var name = entry.name;
+  var username = entry.username;
+  var password = entry.password;
+  var url = entry.url;
 
+  document.getElementById("name-" + id).getElementsByTagName("input")[0].value = name;
+  document.getElementById("username-" + id).getElementsByTagName("input")[0].value = username;
+  document.getElementById("password-" + id).getElementsByTagName("input")[0].value = password;
+  document.getElementById("url-" + id).getElementsByTagName("input")[0].value = url;
+
+  var nameCell = document.getElementById("name-" + id);
+  var usernameCell = document.getElementById("username-" + id);
+  var nameCell = document.getElementById("name-" + id);
+  var passwordCell = document.getElementById("password-" + id);
+  var urlCell = document.getElementById("url-" + id);
+  var editButton = document.getElementById("edit-" + id);
+  var deleteButton = document.getElementById("delete-" + id);
+  var confirmButton = document.getElementById("confirm-" + id);
+  var cancelButton = document.getElementById("cancel-" + id);
+
+  nameCell.getElementsByTagName("input")[0].readOnly = true;
+  usernameCell.getElementsByTagName("input")[0].readOnly = true;
+  var pwInput = passwordCell.getElementsByTagName("input")[0];
+  pwInput.readOnly = true;
+  pwInput.type = "password";
+  urlCell.getElementsByTagName("input")[0].readOnly = true;
+
+  changeButtonStateToNonEditing(editButton, deleteButton, confirmButton, cancelButton);
 }
 
 
@@ -62,7 +110,7 @@ function changeButtonStateToEditing(editButton, deleteButton, confirmButton, can
   cancelButton.style = "";
 }
 
-function changeButtonStateToNonEditing(){
+function changeButtonStateToNonEditing(editButton, deleteButton, confirmButton, cancelButton){
   editButton.style = "";
   deleteButton.style = "";
   confirmButton.style = "display:none";
@@ -170,6 +218,7 @@ function showPasswords() {
     cancelButton.setAttribute("id", "cancel-" + element.id);
     cancelButton.setAttribute("style", "display:none");
     cancelButton.className = "button cancel";
+    cancelButton.onclick = () => cancelEdits(element.id);
     buttonCell.appendChild(cancelButton);
 
     newRow.appendChild(buttonCell);

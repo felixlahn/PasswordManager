@@ -12,6 +12,16 @@ export class PasswordFile {
         
     }
 
+    getEntry(id) {
+        let returnEntry;
+        this.entries.forEach((entry) => {
+            if(entry.id === id) {
+                returnEntry = entry;
+            }
+        });
+        return returnEntry;
+    }
+
     deleteEntry(id) {
         console.log(this.entries);
         let i = 0;
