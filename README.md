@@ -21,8 +21,10 @@
 - ev. Bootstrap 5
 
 # TODO
-1. Wie können Passwörter schön als Tabelle dargestellt werden?
-1. Wie können die als JSON gespeicherte Passwörter im Backend (Rust) von Filesystem gelesen und im Frontend verwendet/angezeigt werden?
+1. Tags
+1. Tests
+1. warum werden alte Daten stringified??
+1. passworteingabe optioinal
 
 # Nützliche Ressourcen
 - [A Guide for Tauri: Part 2](https://nikolas.blog/a-guide-for-tauri-part-2/)

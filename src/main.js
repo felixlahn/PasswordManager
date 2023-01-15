@@ -1,15 +1,16 @@
-const { invoke } = window.__TAURI__.tauri;
 const { listen } = window.__TAURI__.event;
 const { open } = window.__TAURI__.dialog;
-const { writeTextFile } = window.__TAURI__.fs;
 
 import { password_table, add_entry_button } from './modules/htmlElements.mjs'
 import { PasswordFile } from './modules/PasswordFile.mjs';
 
 let passwordFile = new PasswordFile();
-let password = "secret";
+
+// passwordFile.password = prompt("Passwort eingeben");
+// console.log(passwordFile.password);
 
 function addEntry() {
+  console.log(window.location.pathname);
   console.log("addentry");
   let table = password_table.getElementsByTagName('tbody')[0];
   console.log(table);
@@ -187,8 +188,12 @@ async function handleMenueEvent(eventPayloadMessage) {
     openFile();
   }
   if (eventPayloadMessage === "save-event") {
-    await passwordFile.saveFile();
-    showPasswords();
+    if(passwordFile.storedAt === "") {
+      alert("es muss zuerst ein JSON-File geöffnet werden.");
+    } else {
+      await passwordFile.saveFile();
+      showPasswords();
+    }
   }
 }
 

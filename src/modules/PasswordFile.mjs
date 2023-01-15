@@ -6,7 +6,7 @@ export class PasswordFile {
     storedAt = "";
     saved = true;
     entries = [];
-    password = "secretextremelylongwith5$09+";
+    password = "secretForEncryption";
 
     constructor() {
         
