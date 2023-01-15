@@ -98,7 +98,7 @@ export class PasswordFile {
         this.saved = true;
     }
 
-    addEntry(name, username, accountname, password, url) {
+    addEntry(name, username, password, url) {
         let maxId = 0;
         
         this.entries.forEach(elem => {
@@ -107,9 +107,10 @@ export class PasswordFile {
             }
         });
 
-        let newEntry = new Entry(maxId + 1, name, username, accountname, password, url);
+        let newEntry = new Entry(maxId + 1, name, username, password, url);
         this.entries.push(newEntry);
         this.saved = false;
+        return newEntry;
     }
 
     set setEntries(entries) {

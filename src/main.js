@@ -10,8 +10,67 @@ let passwordFile = new PasswordFile();
 let password = "secret";
 
 function addEntry() {
-  passwordFile.addEntry("Microsoft", "felix.lahnsteiner@outlook.com", "Microsoft", "microsoftpassword", "microsoft.com");
-  showPasswords();
+  console.log("addentry");
+  let table = password_table.getElementsByTagName('tbody')[0];
+  console.log(table);
+  var newRow = table.insertRow();
+  newRow.setAttribute("id", "new-row");
+  // accountname
+  var accountNameCell = newRow.insertCell();
+  accountNameCell.classList.add("lalign");
+  var nameInput = document.createElement("input");
+  nameInput.type = "text";
+  nameInput.readOnly = false;
+  accountNameCell.appendChild(nameInput);
+
+  // username
+  var usernameCell = newRow.insertCell();
+  var usernameInput = document.createElement("input");
+  usernameInput.type = "text";
+  usernameInput.value = "hallo";
+  usernameInput.readOnly = false;
+  usernameCell.appendChild(usernameInput);
+
+  //password
+  var passwordCell = newRow.insertCell();
+  var passwordInput = document.createElement("input");
+  passwordInput.type = "text";
+  passwordInput.readOnly = false;
+  passwordCell.appendChild(passwordInput);
+
+  // url
+  var urlCell = newRow.insertCell();
+  var urlInput = document.createElement("input");
+  urlInput.type = "text";
+  urlCell.readOnly = false;
+  urlCell.appendChild(urlInput);
+
+  // tags
+  var tagCell = newRow.insertCell();
+
+  // buttons
+  var buttonCell = newRow.insertCell();
+  newRow.appendChild(buttonCell);
+
+  var confirmButton = document.createElement("a");
+  confirmButton.setAttribute("href", "#");
+  confirmButton.className = "button confirm";
+  confirmButton.onclick = () => {
+   passwordFile.addEntry(nameInput.value, usernameInput.value, passwordInput.value, urlInput.value);
+   showPasswords();
+  };
+  buttonCell.appendChild(confirmButton);
+  
+  var cancelButton = document.createElement("a");
+  cancelButton.setAttribute("href", "#");
+  cancelButton.className = "button cancel";
+  cancelButton.onclick = () => {
+    newRow.remove();
+  };
+  buttonCell.appendChild(cancelButton);
+
+  newRow.appendChild(buttonCell);
+  console.log(newRow);
 }
 
 function editEntry(id) {
@@ -129,6 +188,7 @@ async function handleMenueEvent(eventPayloadMessage) {
   }
   if (eventPayloadMessage === "save-event") {
     await passwordFile.saveFile();
+    showPasswords();
   }
 }
 
