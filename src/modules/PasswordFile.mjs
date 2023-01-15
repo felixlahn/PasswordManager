@@ -6,11 +6,43 @@ export class PasswordFile {
     storedAt = "";
     saved = true;
     entries = [];
-    password = "";
+    password = "secretextremelylongwith5$09+";
 
     constructor() {
         
     }
+
+    deleteEntry(id) {
+        console.log(this.entries);
+        let i = 0;
+        let toDelete;
+        this.entries.forEach((element) => {
+            if(element.id === id) {
+                toDelete = i;
+            }
+            ++i;
+        });
+        this.entries.splice(toDelete, 1);
+        console.log(this.entries);
+    }
+
+    // async openFile(filePath) {
+    //     if (!filePath || filePath === "") {
+    //         throw new Error("filepath is null or empty");
+    //     }
+    //     this.storedAt = filePath;
+    //     const contents = await readTextFile(this.storedAt);
+    //     if(contents !== "") {
+    //         this.entries = JSON.parse(contents);
+    //         if(this.entries !== []) {
+    //             this.entries.forEach(async (entry) => {
+    //                 entry.password = await invoke('decrypt', {cyphertext: entry.password, password: this.password});
+    //             })
+    //         }
+    //     } else {
+    //         this.entries = [];
+    //     }
+    // }
 
     async openFile(filePath) {
         if (!filePath || filePath === "") {
@@ -19,18 +51,28 @@ export class PasswordFile {
         this.storedAt = filePath;
         const contents = await readTextFile(this.storedAt);
         if(contents !== "") {
-            this.entries = JSON.parse(contents);        
+            this.entries = JSON.parse(contents);    
         } else {
             this.entries = [];
         }
     }
 
+    // async saveFile() {
+    //     console.log("save");
+    //     await this.entries.forEach(async (entry) => {
+    //         entry.password = await invoke('encrypt', {plaintext: entry.password, password: this.password});
+    //     });
+    //     console.log(this.entries);
+    //     let jsonString = JSON.stringify(this.entries);
+    //     console.log("jsonString", jsonString);
+    //     await writeTextFile(this.storedAt, jsonString);
+    //     this.saved = true;
+    // }
+
     async saveFile() {
-        console.log("save");
         let jsonString = JSON.stringify(this.entries);
-        console.log("jsonString", jsonString);
         await writeTextFile(this.storedAt, jsonString);
-        this.save = true;
+        this.saved = true;
     }
 
     addEntry(name, username, accountname, password, url) {

@@ -36,7 +36,9 @@ function editEntry(id) {
 }
 
 function deleteEntry(id){
-
+  var toDeleteRow = document.getElementById(id);
+  toDeleteRow.remove();
+  passwordFile.deleteEntry(id);
 }
 
 
@@ -74,7 +76,7 @@ async function handleMenueEvent(eventPayloadMessage) {
     openFile();
   }
   if (eventPayloadMessage === "save-event") {
-    await save();
+    await passwordFile.saveFile();
   }
 }
 
@@ -148,6 +150,7 @@ function showPasswords() {
     deleteButton.setAttribute("href", "#");
     deleteButton.setAttribute("id", "delete-" + element.id);
     deleteButton.className = "button delete";
+    deleteButton.onclick = () => deleteEntry(element.id);
     buttonCell.appendChild(deleteButton);
 
     var confirmButton = document.createElement("a");

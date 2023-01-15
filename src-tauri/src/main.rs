@@ -27,12 +27,12 @@ struct MessagePayload {
 }
 
 #[tauri::command]
-fn decrypt(cyphertext: String, password: String) -> Result<String, CryptographyError> {
+fn decrypt(cyphertext: String, password: &str) -> Result<String, CryptographyError> {
   let mycrpyt = new_magic_crypt!(password, 256); 
   let decryption_result = mycrpyt.decrypt_base64_to_string(&cyphertext);
   match decryption_result {
     Ok(str) => return Ok(str),
-    Err(err) => {println!("error when trying to decrypt cyphertext {}; got error {}", cyphertext, err); return Err(CryptographyError::DecryptionError)}
+    Err(err) => {println!("error when trying to decrypt cyphertext {} with password {}; got error {}", cyphertext, password, err); return Err(CryptographyError::DecryptionError)}
   };
 }
 
