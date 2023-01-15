@@ -26,6 +26,19 @@ export class PasswordFile {
         console.log(this.entries);
     }
 
+    editEntry(id, name, username, password, url) {
+        console.log(this.entries);
+        this.entries.forEach((entry) => {
+            if(entry.id === id) {
+                entry.name = name;
+                entry.username = username;
+                entry.password = password;
+                entry.url = url;
+            }
+        });
+        console.log(this.entries);
+    }
+
     // async openFile(filePath) {
     //     if (!filePath || filePath === "") {
     //         throw new Error("filepath is null or empty");

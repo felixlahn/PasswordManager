@@ -32,7 +32,7 @@ function editEntry(id) {
   pwInput.type = "text";
   urlCell.getElementsByTagName("input")[0].readOnly = false;
 
-  changeButtonStateToEditing(); 
+  changeButtonStateToEditing(editButton, deleteButton, confirmButton, cancelButton); 
 }
 
 function deleteEntry(id){
@@ -43,7 +43,11 @@ function deleteEntry(id){
 
 
 function confirmEdits(id){
-
+  var name = document.getElementById("name-" + id).getElementsByTagName("input")[0].value;
+  var username = document.getElementById("username-" + id).getElementsByTagName("input")[0].value;
+  var password = document.getElementById("password-" + id).getElementsByTagName("input")[0].value;
+  var url = document.getElementById("url-" + id).getElementsByTagName("input")[0].value;
+  passwordFile.editEntry(id, name, username, password, url);
 }
 
 function cancelEdits(id){
@@ -51,7 +55,7 @@ function cancelEdits(id){
 }
 
 
-function changeButtonStateToEditing(){
+function changeButtonStateToEditing(editButton, deleteButton, confirmButton, cancelButton){
   editButton.style = "display:none";
   deleteButton.style = "display:none";
   confirmButton.style = "";
@@ -158,6 +162,7 @@ function showPasswords() {
     confirmButton.setAttribute("id", "confirm-" + element.id);
     confirmButton.setAttribute("style", "display:none");
     confirmButton.className = "button confirm";
+    confirmButton.onclick = () => confirmEdits(element.id);
     buttonCell.appendChild(confirmButton);
     
     var cancelButton = document.createElement("a");
