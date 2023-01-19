@@ -28,7 +28,6 @@ function addEntry() {
   var usernameCell = newRow.insertCell();
   var usernameInput = document.createElement("input");
   usernameInput.type = "text";
-  usernameInput.value = "hallo";
   usernameInput.readOnly = false;
   usernameCell.appendChild(usernameInput);
 

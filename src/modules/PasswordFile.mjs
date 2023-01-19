@@ -49,25 +49,26 @@ export class PasswordFile {
         console.log(this.entries);
     }
 
-    // async openFile(filePath) {
-    //     if (!filePath || filePath === "") {
-    //         throw new Error("filepath is null or empty");
-    //     }
-    //     this.storedAt = filePath;
-    //     const contents = await readTextFile(this.storedAt);
-    //     if(contents !== "") {
-    //         this.entries = JSON.parse(contents);
-    //         if(this.entries !== []) {
-    //             this.entries.forEach(async (entry) => {
-    //                 entry.password = await invoke('decrypt', {cyphertext: entry.password, password: this.password});
-    //             })
-    //         }
-    //     } else {
-    //         this.entries = [];
-    //     }
-    // }
-
     async openFile(filePath) {
+        if (!filePath || filePath === "") {
+            throw new Error("filepath is null or empty");
+        }
+        this.storedAt = filePath;
+        const contents = await readTextFile(this.storedAt);
+        if(contents !== "") {
+            this.entries = JSON.parse(contents);
+            if(this.entries !== []) {
+                let promises = this.entries.map(async (entry) => {
+                    entry.password = await invoke('decrypt', {cyphertext: entry.password, password: this.password});
+                })
+                await Promise.all(promises);
+            }
+        } else {
+            this.entries = [];
+        }
+    }
+
+    /*async openFile(filePath) {
         if (!filePath || filePath === "") {
             throw new Error("filepath is null or empty");
         }
@@ -78,25 +79,28 @@ export class PasswordFile {
         } else {
             this.entries = [];
         }
+    }*/
+
+    async saveFile() {
+        console.log("save");
+        let promises = this.entries.map(async (entry) => {
+            entry.password = await invoke('encrypt', {plaintext: entry.password, password: this.password});
+        });
+        await Promise.all(promises);
+        console.log(this.entries);
+        let jsonString = JSON.stringify(this.entries);
+        console.log("jsonString", jsonString);
+        await writeTextFile(this.storedAt, jsonString);
+        this.saved = true;
     }
 
-    // async saveFile() {
-    //     console.log("save");
-    //     await this.entries.forEach(async (entry) => {
-    //         entry.password = await invoke('encrypt', {plaintext: entry.password, password: this.password});
-    //     });
-    //     console.log(this.entries);
-    //     let jsonString = JSON.stringify(this.entries);
-    //     console.log("jsonString", jsonString);
-    //     await writeTextFile(this.storedAt, jsonString);
-    //     this.saved = true;
-    // }
-
+    /*
     async saveFile() {
         let jsonString = JSON.stringify(this.entries);
         await writeTextFile(this.storedAt, jsonString);
         this.saved = true;
     }
+    */
 
     addEntry(name, username, password, url) {
         let maxId = 0;
