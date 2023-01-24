@@ -169,6 +169,12 @@ html, body{
               left: 12px;
               top: 9.5px;
         }
+
+        .addEntry:after{
+          content: "➕";
+          left: 12px;
+          top: 9.5px;
+        }
   
         .button:hover{
               background-image: -webkit-linear-gradient(top, #fff, #f4f1ee);
@@ -196,7 +202,10 @@ html, body{
               text-shadow:0px 0px 3px #eb2f2f;
         }
   
-          
+        .addEntry:hover:after{
+          color:#000000;
+          text-shadow:0px 0px 3px #000000;
+        }  
   
         .button:active{
               background-image: -webkit-linear-gradient(top, #efedec, #f7f4f4);
@@ -207,4 +216,15 @@ html, body{
         .button:active:after{
               color:#dbd2d2;
               text-shadow: 0px -0.5px 0.5px #bdb5b4, 0px 0.5px 0.5px white;
+        }
+
+        .myDiv
+        {
+            border:solid 1px #0094ff;
+            padding:10px;
+            margin:5px;
+            font-size:15px;
+            font-family:Verdana;
+            text-align:center;
+            border-radius:10px;
         }
