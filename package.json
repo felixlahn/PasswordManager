@@ -1,5 +1,14 @@
 {
   "dependencies": {
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "vitest": "^0.27.2"
+  },
+  "devDependencies": {
+    "@tauri-apps/api": "^1.2.0",
+    "@tauri-apps/cli": "^1.2.3",
+    "jsdom": "^21.1.0"
+  },
+  "scripts": {
+    "test": "vitest --environment jsdom"
   }
 }

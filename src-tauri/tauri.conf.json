@@ -44,7 +44,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "at.fhv.desk_apps.rumpelnig_lahnsteiner.password_manager",
+      "identifier": "at.fhv.desk-apps.rumpelnig-lahnsteiner.password-manager",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
