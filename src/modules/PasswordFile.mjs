@@ -85,19 +85,6 @@ export class PasswordFile {
         }
     }
 
-    /*async openFile(filePath) {
-        if (!filePath || filePath === "") {
-            throw new Error("filepath is null or empty");
-        }
-        this.storedAt = filePath;
-        const contents = await readTextFile(this.storedAt);
-        if(contents !== "") {
-            this.entries = JSON.parse(contents);    
-        } else {
-            this.entries = [];
-        }
-    }*/
-
     async saveFile() {
         console.log("save");
         let promises = this.entries.map(async (entry) => {
@@ -111,14 +98,6 @@ export class PasswordFile {
         await writeTextFile(this.tagsStoredAt, jsonStringTags);
         this.saved = true;
     }
-
-    /*
-    async saveFile() {
-        let jsonString = JSON.stringify(this.entries);
-        await writeTextFile(this.storedAt, jsonString);
-        this.saved = true;
-    }
-    */
 
     addEntry(name, username, password, url, tagsToAddToEntry) {
         let maxId = 0;
