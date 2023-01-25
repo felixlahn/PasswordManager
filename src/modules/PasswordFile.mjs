@@ -7,12 +7,20 @@ const { readTextFile, writeTextFile } = window.__TAURI__.fs;
 export class PasswordFile {
 
     storedAt = "";
+    tagsStoredAt = "";
     saved = true;
     entries = [];
+    tags = [];
     password = "secretForEncryption";
 
     constructor() {
         
+    }
+
+    addGlobalTag(tagText){
+        this.tags.push(tagText);
+        this.saved = false;
+        return tagText;
     }
 
     getEntry(id) {
@@ -69,6 +77,15 @@ export class PasswordFile {
         } else {
             this.entries = [];
         }
+        
+        this.tagsStoredAt = this.storedAt.replace(/(?=\.[^.]+$)/g, "-tags");
+        console.log(this.tagsStoredAt);
+        const contentsTags = await readTextFile(this.tagsStoredAt);
+        if(contentsTags !== ""){
+            this.tags = JSON.parse(contentsTags);
+        } else {
+            this.tags = [];
+        }
     }
 
     async saveFile() {
@@ -77,14 +94,15 @@ export class PasswordFile {
             entry.password = await invoke('encrypt', {plaintext: entry.password, password: this.password});
         });
         await Promise.all(promises);
-        console.log(this.entries);
         let jsonString = JSON.stringify(this.entries);
-        console.log("jsonString", jsonString);
         await writeTextFile(this.storedAt, jsonString);
+        
+        let jsonStringTags = JSON.stringify(this.tags);
+        await writeTextFile(this.tagsStoredAt, jsonStringTags);
         this.saved = true;
     }
 
-    addEntry(name, username, password, url) {
+    addEntry(name, username, password, url, tagsToAddToEntry) {
         let maxId = 0;
         
         this.entries.forEach(elem => {
@@ -93,10 +111,21 @@ export class PasswordFile {
             }
         });
 
-        let newEntry = new Entry(maxId + 1, name, username, password, url);
+        let newEntry = new Entry(maxId + 1, name, username, password, url, tagsToAddToEntry);
         this.entries.push(newEntry);
         this.saved = false;
         return newEntry;
+    }
+    
+
+    addTagToEntry(entryId, tagText){
+        this.entries.forEach((entry) => {
+            if(entry.id === entryId) {
+                entry.entryTags.push(tagText);
+            }
+        });
+        
+        return(tagText);
     }
 
     set setEntries(entries) {
@@ -131,12 +160,14 @@ class Entry {
     username = "";
     password = "";
     url = "";
+    entryTags = [];
 
-    constructor(id, name, username, password, url) {
+    constructor(id, name, username, password, url, entryTags) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.password = password;
         this.url = url;
+        this.entryTags = entryTags;
     }
 }
