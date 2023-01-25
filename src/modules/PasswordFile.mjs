@@ -1,6 +1,9 @@
 const { invoke } = window.__TAURI__.tauri;
 const { readTextFile, writeTextFile } = window.__TAURI__.fs;
 
+// import { invoke } from '@tauri-apps/api/tauri';
+// import { readTextFile, writeTextFile } from '@tauri-apps/api/fs';
+
 export class PasswordFile {
 
     storedAt = "";
